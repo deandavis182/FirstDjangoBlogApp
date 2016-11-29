@@ -12,13 +12,14 @@ from blog.models import Post
 @csrf_exempt
 def register(request):
     if request.method == 'POST':
+    	    # assign form from 'forms.py' containing posts data
         form = RegistrationForm(request.POST)
         if form.is_valid():
+        	# create a built-in django User object with data from form
             user = User.objects.create_user(
             username=form.cleaned_data['username'],
             password=form.cleaned_data['password1'],
             email=form.cleaned_data['email'],
-            #date=datetime.date()
             )
             user.save()
             return HttpResponseRedirect('/register/success/')
@@ -42,9 +43,12 @@ def register_success(request):
 
 
 def index(request):
+	# if user fills out 'new post' form
     if request.method == 'POST':
+    	# grab post data
         newpost = request.POST
         if newpost:
+        	# assign values to Post object from models
             post = Post(
             title=newpost['Title'],
             slug=newpost['Title'],
@@ -53,6 +57,7 @@ def index(request):
             published=newpost['Publish'],
             users_id=request.user,
             )
+            # save new Post object
             post.save()
             return HttpResponseRedirect('/')
 
@@ -63,21 +68,30 @@ def index(request):
 
 
 def user_home(request):
+	# make sure there is a logged in user to access this view
     if not request.user.id:
         return HttpResponseRedirect('/login/')
     # get the posts specific to current user
     allposts = Post.objects.filter(users_id_id=request.user.id)
+    # make empty list of published posts
     pubposts = []
+    # make empty list of unpublished posts
     unpubposts = []
+    # now append the published and unpublished posts
     for post in allposts:
         if post.published == True:
             pubposts.append(post)
         else:
             unpubposts.append(post)
+        # assign first 4 published posts to display
     shpubposts = pubposts[:4]
+        # assign the remaining published posts
     shmpubposts = pubposts[4:]
+    # assign first 4 UNpublished posts to display
     shunpubposts = unpubposts[:4]
+    # assign the remaining UNpublished posts
     shmunpubposts = unpubposts[4:]
+    # now render the template with the assigned post variables
     return render(request, 'blog/user_home.html', {'allposts': allposts, 'shpubposts': shpubposts, 'shmpubposts': shmpubposts, 'shunpubposts': shunpubposts, 'shmunpubposts': shmunpubposts, 'user': request.user})
 
 
