@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %} Blog Archive {% endblock %}
+
+{% block content %}
+
+{% if user.username %}
+    <p>Welcome {{ user.username }} !!!</p>
+    <a href="/myposts">My Posts</a>
+{% else %}
+    <a href="/login">Login</a>
+{% endif %}
+
+
+<h1> My First Django Blog </h1><br>
+
+
+    <ul>
+    {% for post in posts %}
+
+        <div class="post">
+            <h2>
+                <a href="{% url 'post' post.id %}">
+                {{post.title}}
+                </a>
+            </h2>
+            <p>{{post.description}}</p>
+            <p>
+            Posted on
+            <time datetime="{{post.created|date:"c"}}">
+            {{post.created|date}}
+            </time>
+            </p>
+        </div><br>
+
+    {% endfor %}
+    </ul>
+{% if user.username %}
+    <a href="{% url 'logout' %}">Logout</a><br>
+    <!-- Trigger/Open The Modal -->
+    <button id="myBtn">New Post</button>
+
+{% else %}
+    <a href="/login">Login</a>
+{% endif %}
+
+
+
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+
+    <form class="form-horizontal" method="post" action=".">{% csrf_token %}
+        <fieldset>
+        <!-- Form Name -->
+            <legend>New Post</legend>
+
+        <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Title">Title</label>
+                    <div class="col-md-4">
+                        <input id="Title" name="Title" type="text" placeholder="Title" class="form-control input-md" required="">
+
+                    </div>
+            </div>
+
+        <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Description">Description</label>
+                <div class="col-md-4">
+                    <input id="Description" name="Description" type="text" placeholder="Description" class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+        <!-- Textarea -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="post_content">Post</label>
+                <div class="col-md-4">
+                    <textarea class="form-control" id="post_content" name="post_content">Write your post.</textarea>
+                </div>
+            </div>
+
+        <!--  Radios (inline) -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Publish">Publish?</label>
+                <div class="col-md-4">
+                    <label class="radio-inline" for="Publish-0">
+                        <input type="radio" name="Publish" id="Publish-0" value=1 checked="checked">
+                        Yes
+                    </label>
+                    <label class="radio-inline" for="Publish-1">
+                        <input type="radio" name="Publish" id="Publish-1" value=0>
+                        No
+                    </label>
+                </div>
+            </div>
+
+        <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="singlebutton"></label>
+                <div class="col-md-4">
+                    <input type="submit" value="Post" />
+                </div>
+            </div>
+
+</fieldset>
+</form>
+
+  </div>
+
+</div>
+
+{% endblock %}
+{% block bse %}
+<script src="{% static 'reg.js' %}"></script>
+{% endblock %}
