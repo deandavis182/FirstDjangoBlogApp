@@ -2,12 +2,12 @@ This is the start of my first django blog app.
 
 The index page displays all published posts from the DB.
 
-The Post page displays specific blog post by ID
+The Post page displays specific blog post by ID from the database
 
-The user_home page displays all posts, published and not published, from the current user.
+The user_home page displays all posts, published and not published, from the current user. From here, the user can create, read, update and delete their posts.
 
 
-So far this app has basic Admin CRUD, the create/read portion of CRUD for regular users, basic CSS and JavaScript to handle forms and displays....
+So far this app has basic Admin and User CRUD, basic CSS and JavaScript to handle forms and displays....
 
 
 

@@ -6,7 +6,9 @@
 
 {% block content %}
 <h1> Hello, {{ user.username }}.</h1>
-<h2> Welcome to your account page, currently you can only see your stuff... </h2>
+<h2> Welcome to your account page! <br> From here you can Create, View, Update and Delete your posts.</h2>
+<br>
+    <button id="myBtn">New Post</button>
 <br><br>
 
 <h1>Your Published Posts:</h1><br>
@@ -82,6 +84,75 @@
 
 <a href="{% url 'logout' %}">Logout</a><br><br>
 <a href="{% url 'index' %}">Back to Home</a><br><br>
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+
+    <form class="form-horizontal" method="post" action="/">{% csrf_token %}
+        <fieldset>
+        <!-- Form Name -->
+            <legend>New Post</legend>
+
+        <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Title">Title</label>
+                    <div class="col-md-4">
+                        <input id="Title" name="Title" type="text" placeholder="Title" class="form-control input-md" required="">
+
+                    </div>
+            </div>
+
+        <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Description">Description</label>
+                <div class="col-md-4">
+                    <input id="Description" name="Description" type="text" placeholder="Description" class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+        <!-- Textarea -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="post_content">Post</label>
+                <div class="col-md-4">
+                    <textarea class="form-control" id="post_content" name="post_content">Write your post.</textarea>
+                </div>
+            </div>
+
+        <!--  Radios (inline) -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Publish">Publish?</label>
+                <div class="col-md-4">
+                    <label class="radio-inline" for="Publish-0">
+                        <input type="radio" name="Publish" id="Publish-0" value=1 checked="checked">
+                        Yes
+                    </label>
+                    <label class="radio-inline" for="Publish-1">
+                        <input type="radio" name="Publish" id="Publish-1" value=0>
+                        No
+                    </label>
+                </div>
+            </div>
+
+        <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="singlebutton"></label>
+                <div class="col-md-4">
+                    <input type="submit" value="Post" />
+                </div>
+            </div>
+
+</fieldset>
+</form>
+
+  </div>
+
+</div>
 {% endblock %}
 
 {% block bse %}

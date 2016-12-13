@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
 
 {% block title %}{{post.title}}{% endblock %}
 
@@ -6,6 +7,18 @@
 <article>
     <header>
         <h1> {{post.title}} </h1>
+        {% if user.id is post.users_id_id %}
+            <form method="post" action="/post/delete">{% csrf_token %}
+            <div class="col-md-4">
+                    <label class="radio-inline" for="del-0">
+                        <input type="hidden" name="del" id="del-0" value={{post.id}}>
+                        <input type="submit" value="Delete Post?" />
+                    </label>
+                </div>
+            </form>
+                <button id="myBtn">Edit Post</button>
+            <br><br>
+        {% endif %}
         <p>
             Posted on
             <time datetime="{{post.created|date:"c"}}">
@@ -18,5 +31,82 @@
     </p>
     <p>{{post.content|safe}}</p>
 </article><br>
-    <a href="{% url 'index' %}">Back to Posts</a>
+    <a href="{% url 'user_home' %}">Back to My Posts</a><br>
+    <a href="{% url 'index' %}">Back to All Posts</a>
+
+
+
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">x</span>
+
+    <form class="form-horizontal" method="post" action="/update">{% csrf_token %}
+        <fieldset>
+        <!-- Form Name -->
+            <legend>Update Post</legend>
+
+            <input type="hidden" name="postid" id="postid" value={{post.id}}>
+
+        <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Title">Title</label>
+                    <div class="col-md-4">
+                        <input id="Title" name="Title" type="text" placeholder="{{post.title}}" value="{{post.title}}" class="form-control input-md" required="">
+
+                    </div>
+            </div>
+
+        <!-- Text input-->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Description">Description</label>
+                <div class="col-md-4">
+                    <input id="Description" name="Description" type="text" placeholder="{{post.description}}" value="{{post.description}}" class="form-control input-md" required="">
+
+                </div>
+            </div>
+
+        <!-- Textarea -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="post_content">Post</label>
+                <div class="col-md-4">
+                    <textarea class="form-control" id="post_content" name="post_content">{{post.content}}</textarea>
+                </div>
+            </div>
+
+        <!--  Radios (inline) -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="Publish">Publish?</label>
+                <div class="col-md-4">
+                    <label class="radio-inline" for="Publish-0">
+                        <input type="radio" name="Publish" id="Publish-0" value=1 checked="checked">
+                        Yes
+                    </label>
+                    <label class="radio-inline" for="Publish-1">
+                        <input type="radio" name="Publish" id="Publish-1" value=0>
+                        No
+                    </label>
+                </div>
+            </div>
+
+        <!-- Button -->
+            <div class="form-group">
+                <label class="col-md-4 control-label" for="singlebutton"></label>
+                <div class="col-md-4">
+                    <input type="submit" value="Update Post" />
+                </div>
+            </div>
+
+</fieldset>
+</form>
+
+  </div>
+
+</div>
+{% endblock %}
+{% block bse %}
+<script src="{% static 'reg.js' %}"></script>
 {% endblock %}

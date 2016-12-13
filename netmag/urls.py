@@ -32,4 +32,6 @@ urlpatterns = [
     url(r'^accounts/login/$', auth_views.login, name='login'),  # If user is not logged in, it will redirect to login page
     url(r'^myposts/$', views.user_home, name='user_home'),
     url(r'^(?P<id>\d+)/', views.post, name='post'),
+    url(r'^post/delete', views.del_post, name='del_post'),
+    url(r'^update', views.up_post, name='up_post'),
 ]
